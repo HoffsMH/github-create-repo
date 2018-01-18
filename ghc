@@ -13,17 +13,17 @@ if ! is_a_git_repo=$(git rev-parse --is-inside-work-tree); then
 fi;
 
 # do we know the correct password to decrypt our access token
-if ! accessToken=$(echo -n "$enc_access_token" | openssl aes-256-cbc -d -a) ; then
+if ! access_token=$(echo -n "$enc_access_token" | openssl aes-256-cbc -d -a) ; then
     echo 'Incorrect Password'
     exit 1
 fi
 
-directoryname=${PWD##*/}
-name=${2:-$directoryname}
+directory_name=${PWD##*/}
+name=${2:-$directory_name}
 description=${1:-" "}
 
 data='{ "name":"'$name'", "description": "'$description'" }'
-url=https://api.github.com/user/repos?access_token=$accessToken
+url=https://api.github.com/user/repos?access_token=$access_token
 
 
 echo "submitting... $data"
